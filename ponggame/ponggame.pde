@@ -4,6 +4,7 @@ int lPlayerX, lPlayerY;
 int ballX, ballY, ballH, ballW; 
 int ballSpeedX, ballSpeedY;
 boolean lMoveUp, lMoveDown, rMoveUp, rMoveDown;
+int count = 1;
 void setup() {
   size (1280, 720);
   ballSpeedX = 2;
@@ -44,17 +45,17 @@ void draw() {
   
   /*collison detection*/
   //right player
-  if(rPlayerY-60 < height-height+20) {
+  if(rPlayerY-40 < height-height+20) {
       rPlayerY=height-height+60;
    }
-  if(rPlayerY+60 > height-20) {
+  if(rPlayerY+40 > height-20) {
      rPlayerY=height-60;
    }
    //left player
-   if(lPlayerY-60 < height-height+20) {
+   if(lPlayerY-40 < height-height+20) {
       lPlayerY=height-height+60;
    }
-  if(lPlayerY+60 > height-20) {
+  if(lPlayerY+40 > height-20) {
      lPlayerY=height-60;
    }
    
@@ -69,46 +70,20 @@ void draw() {
   rectMode(CENTER);
   rect(lPlayerX, lPlayerY, playerW, playerH);
   
-  //player controller
-  if (lMoveUp) {
-    lPlayerY = lPlayerY - playerSpeed;
-  }
-  if (lMoveDown) {
-    lPlayerY = lPlayerY + playerSpeed;
-  }
-  if (rMoveUp) {
-    rPlayerY = rPlayerY - playerSpeed;
-  }
-  if (rMoveDown) {
-    rPlayerY = rPlayerY + playerSpeed;
-  }
-  
-  //Key pressed check
+  //Player controller
   if (keyPressed) {
     if (key == 'w' || key == 'W') {
-      lMoveUp = true;
-    }
-    else {
-      lMoveUp = false;
+      lPlayerY = lPlayerY - playerSpeed;
     }
     if (key == 's' || key == 'S') {
-      lMoveDown = true;
-    }
-    else {
-      lMoveDown = false;
+      lPlayerY = lPlayerY + playerSpeed;
     }
     //right player
     if (key == 'o' || key == 'O') {
-      rMoveUp = true;
-    }
-    else {
-      rMoveUp = false;
+      rPlayerY = rPlayerY - playerSpeed;
     }
     if (key == 'l' || key == 'L') {
-      rMoveDown = true;
-    }
-    else {
-      rMoveDown = false;
+      rPlayerY = rPlayerY + playerSpeed;
     }
   }
    //Ball
@@ -118,7 +93,7 @@ void draw() {
    rect(ballX, ballY, ballH, ballW);
    
    //Move ball
-   ballX = ballX + ballSpeedX*2;
+   ballX = ballX - ballSpeedX*2;
    ballY = ballY + ballSpeedY*2;
    
    //Detects floor
@@ -130,11 +105,23 @@ void draw() {
      ballSpeedY = -ballSpeedY;
    }
    
-   /*Detects right player*/
-   //hit top bounce ball opposite
+   if (ballX - ballW/2 > rPlayerX-playerW && ballY - ballH/2 > rPlayerY-playerH) {
+     ballSpeedX = -ballSpeedX;
+   }
+   if (ballX - ballW/2 < lPlayerX-playerW && ballY - ballH/2 > lPlayerY-playerH) {
+     ballSpeedX = -ballSpeedX;
+   }
+   /*
+   //Detects players
    if (ballX - ballW/2 > rPlayerX-playerW){
      if (ballY - ballH/2 > rPlayerY-playerH) {
         ballSpeedX = -ballSpeedX;
      }
    }
+   if (ballX - ballW/2 < lPlayerX-playerW){
+     if (ballY - ballH/2 > lPlayerY-playerH/2) {
+        ballSpeedX = -ballSpeedX;
+     }
+   }
+   */  
 }
