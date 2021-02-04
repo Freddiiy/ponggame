@@ -1,4 +1,6 @@
 int border = 5;
+int rPlayerX, rPlayerY, rPlayerW, rPlayerH;
+int lPlayerX, lPlayerY, lPlayerW, lPlayerH;
 int ballX, ballY, ballH, ballW; 
 int ballSpeedX, ballSpeedY;
 void setup() {
@@ -6,7 +8,9 @@ void setup() {
   ballSpeedX = 5;
   ballSpeedY = 5;
   
-  //gives balls its form
+  //creates right player form
+  //rPlayerX
+  //creates ball form
   ballX = width/2;
   ballY = height/2;
   ballH = 20;
@@ -42,7 +46,35 @@ void draw() {
    fill(255);
    rectMode(CENTER);
    rect(ballX, ballY, ballH, ballW);
+   
    //Move ball
    ballX = ballX + ballSpeedX*2;
    ballY= ballY + ballSpeedY*2;
+   
+   //Detects floor
+   if (ballY - ballW/2 > height-50) {
+     ballSpeedY = -ballSpeedY;
+   }
+   //Detects roof
+   if (ballY - ballW/2 < height-height+25) {
+     ballSpeedY = -ballSpeedY;
+   }
+   
+   //Detects right player
+   //if ()
+   
+   //Detects floor
+   /*
+   //ball detects wall
+   if (ballX - ballW/2 > width-40){
+     ballSpeedX = -ballSpeedX*1;
+     ballSpeedY = -ballSpeedY*1;
+   }
+   else {
+     ballSpeedX = 5;
+     ballSpeedY = 5;
+   }
+   */
+   
+   //bounce
 }
