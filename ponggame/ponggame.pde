@@ -3,11 +3,12 @@ int rPlayerX, rPlayerY, playerW, playerH, playerSpeed;
 int lPlayerX, lPlayerY;
 boolean lMoveUp, lMoveDown, rMoveUp, rMoveDown;
 
-int ballX, ballY, ballH, ballW, ballResetX, ballResetY; 
-int ballSpeedX, ballSpeedY;
+int ballX, ballY, ballH, ballW, ballResetX, ballResetY;
+int ballSpeedX, ballSpeedY, direction;
 
 boolean goalOnLeft, goalOnRight;
-int scoreLeft = 0, scoreRight = 0, scoreMax = 1;
+int scoreLeft = 0, scoreRight = 0, scoreMax = 2;
+boolean click;
 
 int count = 1;
 void setup() {
@@ -19,14 +20,16 @@ void setup() {
   ballSpeedX = 2;
   ballSpeedY = 2;
 
-  //creates ball form
+  //creates ball form and direction
   ballX = width/2;
   ballY = height/2;
   ballH = 20;
   ballW = 20;
   ballResetX = width/2;
   ballResetY = height/2;
-
+  direction = int(random(4));
+  //direction = 4;
+  
   //sets player
   lPlayerX = width-width+40;
   lPlayerY = height/2;
@@ -121,10 +124,29 @@ void drawBall() {
   rect(ballX, ballY, ballH, ballW);
 }
 
+
 void moveBall() {
   //Move ball
-  ballX = ballX + ballSpeedX*2;
-  ballY = ballY + ballSpeedY*2;
+  if (direction == 0) {
+    ballX = ballX + ballSpeedX*2;
+    ballY = ballY + ballSpeedY*2;
+    println("shooting down right");
+  }
+  if (direction == 1) {
+    ballX = ballX - ballSpeedX*2;
+    ballY = ballY + ballSpeedY*2;
+    println("shooting down left");
+  }
+  if (direction == 2) {
+    ballX = ballX + ballSpeedX*2;
+    ballY = ballY - ballSpeedY*2;
+    println("shooting up right");
+  }
+  if (direction == 3) {
+    ballX = ballX - ballSpeedX*2;
+    ballY = ballY - ballSpeedY*2;
+    println("shooting down right");
+  }
 }
 
 void ballCol() {
@@ -224,12 +246,28 @@ void gameOver() {
   
   //user clicks on "play again" to restart the game
   boolean end = scoreLeft > scoreMax | scoreRight > scoreMax;
-  if (end == true) {
+  if (end == true) {    
+    cursor();
     fill(0, 255, 0);
     textAlign(CENTER);
     textSize(68);
-    text("Play Again", width/2, height/2+100);
+    text("Click to play again", width/2, height/2+100);
+    
     ballSpeedX = 0;
     ballSpeedY = 0;
   }
+  
+  // restarts game
+  if (click == true) {
+    setup();
+    scoreLeft = 0;
+    scoreRight = 0;
+    end = false;
+    click = false;
+  }
+}
+
+void mouseClicked() {
+  click = true;
+  println(click);
 }
