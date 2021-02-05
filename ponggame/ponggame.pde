@@ -7,13 +7,14 @@ int ballX, ballY, ballH, ballW, ballResetX, ballResetY;
 int ballSpeedX, ballSpeedY;
 
 boolean goalOnLeft, goalOnRight;
-int scoreLeft = 0, scoreRight = 0, scoreMax = 5;
+int scoreLeft = 0, scoreRight = 0, scoreMax = 1;
 
 int count = 1;
 void setup() {
   size (1280, 720);
   background(0);
   surface.setTitle("Pong");
+  surface.setResizable(true);
 
   ballSpeedX = 2;
   ballSpeedY = 2;
@@ -51,6 +52,7 @@ void draw() {
   scoreGoal();
   saveScore();
   resetGame();
+  gameOver();
 }
 
 void gameField() {
@@ -203,4 +205,31 @@ void showScore() {
   textSize(128);
   text(scoreLeft, width/2 - 100, height-height+200);
   text(scoreRight, width/2 + 100, height-height+200);
+}
+void gameOver() {
+  if (scoreLeft > scoreMax) {
+    fill(255, 0, 0);
+    textAlign(CENTER);
+    textSize(128);
+    text("Left side wins!", width/2, height/2);
+    println("Left wins");
+  }
+  if (scoreRight > scoreMax) {
+    fill(0, 255, 0);
+    textAlign(CENTER);
+    textSize(128);
+    text("Right side wins!", width/2, height/2);
+    println("Right wins");
+  }
+  
+  //user clicks on "play again" to restart the game
+  boolean end = scoreLeft > scoreMax | scoreRight > scoreMax;
+  if (end == true) {
+    fill(0, 255, 0);
+    textAlign(CENTER);
+    textSize(68);
+    text("Play Again", width/2, height/2+100);
+    ballSpeedX = 0;
+    ballSpeedY = 0;
+  }
 }
